@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.PowerupTest" tests="27" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.023">
+  <properties/>
+  <testcase name="constructorTest()" classname="gremlins.PowerupTest" time="0.002"/>
+  <testcase name="checkOverlapTest()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="tickTest2()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest3()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="tickTest4()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest5()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest6()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest7()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest8()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest9()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest10()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest11()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="checkOverlapTest12()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest13()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="checkOverlapTest14()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest15()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest2()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest3()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest4()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest5()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest6()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest7()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="checkOverlapTest8()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="checkOverlapTest9()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="tickTest10()" classname="gremlins.PowerupTest" time="0.001"/>
+  <testcase name="respawnTest1()" classname="gremlins.PowerupTest" time="0.0"/>
+  <testcase name="respawnTest2()" classname="gremlins.PowerupTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

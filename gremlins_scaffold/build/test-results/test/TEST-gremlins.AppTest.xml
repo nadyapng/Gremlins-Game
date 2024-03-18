@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.AppTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:28" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="17.77">
+  <properties/>
+  <testcase name="drawTest1()" classname="gremlins.AppTest" time="4.657"/>
+  <testcase name="drawTest2()" classname="gremlins.AppTest" time="1.046"/>
+  <testcase name="drawTest3()" classname="gremlins.AppTest" time="1.033"/>
+  <testcase name="drawTest4()" classname="gremlins.AppTest" time="1.029"/>
+  <testcase name="drawTest5()" classname="gremlins.AppTest" time="1.036"/>
+  <testcase name="drawTest6()" classname="gremlins.AppTest" time="1.116"/>
+  <testcase name="drawTest7()" classname="gremlins.AppTest" time="1.029"/>
+  <testcase name="drawTest8()" classname="gremlins.AppTest" time="1.035"/>
+  <testcase name="drawTest9()" classname="gremlins.AppTest" time="1.028"/>
+  <testcase name="keyPressedTest1()" classname="gremlins.AppTest" time="0.543"/>
+  <testcase name="keyPressedTest2()" classname="gremlins.AppTest" time="1.042"/>
+  <testcase name="keyPressedTest3()" classname="gremlins.AppTest" time="1.037"/>
+  <testcase name="keyPressedTest4()" classname="gremlins.AppTest" time="1.079"/>
+  <testcase name="keyPressedTest5()" classname="gremlins.AppTest" time="1.052"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Warning: the fonts "Times" and "Lucida Bright" are not available for the Java logical font "Serif", which may have unexpected appearance or behavior. Re-enable the "Times" font to remove this warning.
+Warning: the fonts "Times" and "Lucida Bright" are not available for the Java logical font "Serif", which may have unexpected appearance or behavior. Re-enable the "Times" font to remove this warning.
+java.lang.NullPointerException
+	at processing.core.PGraphics.image(PGraphics.java:3770)
+	at processing.core.PApplet.image(PApplet.java:12611)
+	at gremlins.Projectile.draw(Projectile.java:72)
+	at gremlins.GameMap.draw(GameMap.java:266)
+	at gremlins.App.draw(App.java:273)
+	at processing.core.PApplet.handleDraw(PApplet.java:2426)
+	at processing.awt.PSurfaceAWT$12.callDraw(PSurfaceAWT.java:1557)
+	at processing.core.PSurfaceNone$AnimationThread.run(PSurfaceNone.java:316)
+]]></system-err>
+</testsuite>

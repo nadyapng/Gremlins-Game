@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.CharacterTest" tests="37" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.024">
+  <properties/>
+  <testcase name="constructorTest()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="killTest1()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="killTest2()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="killTest3()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="killTest4()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest10()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="moveTest11()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest12()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest13()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="moveTest14()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest15()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="moveTest16()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest17()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest1()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest2()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest3()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest4()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="checkCollisionTest5()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest6()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="checkCollisionTest7()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="checkCollisionTest8()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="constructor2Test()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest1()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest2()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest3()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest4()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest5()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="moveTest6()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest7()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="moveTest8()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="moveTest9()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="stopTest1()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="stopTest2()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="stopTest3()" classname="gremlins.CharacterTest" time="0.001"/>
+  <testcase name="stopTest4()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="stopTest5()" classname="gremlins.CharacterTest" time="0.0"/>
+  <testcase name="stopTest6()" classname="gremlins.CharacterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

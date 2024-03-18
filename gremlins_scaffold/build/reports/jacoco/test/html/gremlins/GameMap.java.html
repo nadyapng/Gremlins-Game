@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">GameMap.java</span></div><h1>GameMap.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+
+public class GameMap {
+    
+    public String layoutFilename; 
+    public ArrayList&lt;Tile&gt; allTiles;
+    public ArrayList&lt;StoneTile&gt; stoneTiles;
+    public ArrayList&lt;BrickTile&gt; brickTiles;
+    public ArrayList&lt;Gremlin&gt; gremlins;
+    public Door exitTile;
+    public Wizard wizard;
+    public ArrayList&lt;Fireball&gt; fireballs;
+    public ArrayList&lt;Slime&gt; slimes;
+    public ArrayList&lt;Powerup&gt; powerups;
+    public ArrayList&lt;Door&gt; portals;
+
+    public ArrayList&lt;String&gt; lines;
+
+    //images
+    public HashMap&lt;String, PImage&gt; brickTileSprites;
+    public PImage stoneTileSprite;
+    public PImage exitTileSprite;
+    public HashMap&lt;String, PImage&gt; wizardSprites;
+    public HashMap&lt;String, PImage&gt; gremlinSprites;
+    public PImage fireballSprite;
+    public PImage slimeSprite;
+    public PImage powerupSprite;
+    public PImage portalSprite;
+
+    public int wizardSpawnCounter;
+    public boolean isLevelOver;
+    public int lives;
+    public boolean resetMap;
+
+    public float wizardCooldown;
+    public float fireballCooldownCounter;
+    public float gremlinCooldown;
+
+    /**
+     * Constructor method for a GameMap 
+     * 
+     * @param layoutFilename    filename of text file containing layout of map
+     * @param brickwallSprites  images of BrickTile
+     * @param stoneTileSprite   image of StoneTile
+     * @param exitTileSprite    image of ExitTile
+     * @param gremlinSprites    images of Gremlin
+     * @param wizardSprites     images of Wizard, for all directions
+     * @param fireballSprite    image of wizard's fireball
+     * @param slimeSprite       image of gremlin's Slime
+     * @param powerupSprite     image of Powerup
+     * @param portalSprite      image of portal
+     * @param lives             current wizard lives remaining
+     * @param wizardCooldown    cooldown period for wizard to shoot fireballs
+     * @param gremlinCooldown   cooldown period for gremlin to shoot slimes
+     */
+<span class="fc" id="L65">    public GameMap(String layoutFilename, HashMap&lt;String, PImage&gt; brickwallSprites, PImage stoneTileSprite, PImage exitTileSprite, HashMap&lt;String, PImage&gt; gremlinSprites, HashMap&lt;String, PImage&gt; wizardSprites, PImage fireballSprite, PImage slimeSprite, PImage powerupSprite, PImage portalSprite, int lives, float wizardCooldown, float gremlinCooldown) {</span>
+
+<span class="fc" id="L67">        this.layoutFilename = layoutFilename; </span>
+<span class="fc" id="L68">        this.allTiles = new ArrayList&lt;Tile&gt;();</span>
+<span class="fc" id="L69">        this.stoneTiles = new ArrayList&lt;StoneTile&gt;();</span>
+<span class="fc" id="L70">        this.brickTiles = new ArrayList&lt;BrickTile&gt;();</span>
+<span class="fc" id="L71">        this.gremlins = new ArrayList&lt;Gremlin&gt;();</span>
+<span class="fc" id="L72">        this.fireballs = new ArrayList&lt;Fireball&gt;();</span>
+<span class="fc" id="L73">        this.slimes = new ArrayList&lt;Slime&gt;();</span>
+<span class="fc" id="L74">        this.powerups = new ArrayList&lt;Powerup&gt;();</span>
+<span class="fc" id="L75">        this.portals = new ArrayList&lt;Door&gt;();</span>
+
+<span class="fc" id="L77">        this.brickTileSprites = brickwallSprites;</span>
+<span class="fc" id="L78">        this.stoneTileSprite = stoneTileSprite;</span>
+<span class="fc" id="L79">        this.exitTileSprite = exitTileSprite;</span>
+<span class="fc" id="L80">        this.gremlinSprites = gremlinSprites;</span>
+<span class="fc" id="L81">        this.wizardSprites = wizardSprites;</span>
+<span class="fc" id="L82">        this.fireballSprite = fireballSprite;</span>
+<span class="fc" id="L83">        this.slimeSprite = slimeSprite;</span>
+<span class="fc" id="L84">        this.powerupSprite = powerupSprite;</span>
+<span class="fc" id="L85">        this.portalSprite = portalSprite;</span>
+
+<span class="fc" id="L87">        this.wizardSpawnCounter = 30; </span>
+<span class="fc" id="L88">        this.isLevelOver = false;</span>
+<span class="fc" id="L89">        this.lives = lives;</span>
+<span class="fc" id="L90">        this.resetMap = false;</span>
+        //cooldown multiplied by fps
+<span class="fc" id="L92">        this.wizardCooldown = wizardCooldown;</span>
+<span class="fc" id="L93">        this.gremlinCooldown = gremlinCooldown;</span>
+
+<span class="fc" id="L95">        boolean passParse = this.parseLayoutFile();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (passParse) {</span>
+<span class="fc" id="L97">            this.createObjects();</span>
+        }
+
+<span class="fc" id="L100">    }</span>
+
+
+    /**
+     * Parses the layout text file for the GameMap, and add lines from file to a list.
+     * Handles errors with invalid files.
+     * 
+     * @return true if file can be found and is properly parsed
+     */
+    public boolean parseLayoutFile() {
+
+        try{
+<span class="fc" id="L112">            File f = new File(this.layoutFilename);</span>
+<span class="fc" id="L113">            Scanner scan = new Scanner(f);</span>
+<span class="fc" id="L114">            ArrayList&lt;String&gt; lines = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            while (scan.hasNextLine()) {</span>
+<span class="fc" id="L116">                String line = scan.nextLine();</span>
+<span class="fc" id="L117">                lines.add(line);</span>
+<span class="fc" id="L118">            }</span>
+<span class="fc" id="L119">            scan.close();</span>
+<span class="fc" id="L120">            this.lines = lines;</span>
+<span class="fc" id="L121">            return true;</span>
+            
+<span class="fc" id="L123">        }catch(FileNotFoundException e) {</span>
+<span class="fc" id="L124">            System.out.print(&quot;File does not exist&quot;);</span>
+<span class="fc" id="L125">            return false;</span>
+        }
+
+        }
+    
+    
+    /**
+     * Creates objects of map according to list of text from layout file.
+     * Type of object is decided by current chracter in the list of text.
+     * Handles illegal chracters in layout file.
+     */
+    public void createObjects() {
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        for (int i = 0 ; i &lt; lines.size() ; i++) {</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            for(int j = 0 ; j &lt; lines.get(i).length() ; j++) {</span>
+<span class="fc" id="L141">                int currentX = j * 20;</span>
+<span class="fc" id="L142">                int currentY = i * 20;</span>
+                //create brick wall
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                if (lines.get(i).charAt(j) == 'B') {</span>
+<span class="fc" id="L145">                    BrickTile b = new BrickTile(brickTileSprites, currentX, currentY, i, j);</span>
+<span class="fc" id="L146">                    this.allTiles.add(b);</span>
+<span class="fc" id="L147">                    this.brickTiles.add(b);</span>
+<span class="fc" id="L148">                }</span>
+                //create stone wall
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'X') {</span>
+<span class="fc" id="L151">                    StoneTile s = new StoneTile(stoneTileSprite, currentX, currentY, i, j);</span>
+<span class="fc" id="L152">                    this.allTiles.add(s);</span>
+<span class="fc" id="L153">                    this.stoneTiles.add(s);</span>
+<span class="fc" id="L154">                }</span>
+                //create exit door
+<span class="fc bfc" id="L156" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'E') {</span>
+<span class="fc" id="L157">                    Door e = new Door(exitTileSprite, currentX, currentY, i, j);</span>
+<span class="fc" id="L158">                    this.exitTile = e;</span>
+<span class="fc" id="L159">                }</span>
+                //create wizard
+<span class="fc bfc" id="L161" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'W') {</span>
+<span class="fc" id="L162">                    Wizard w = new Wizard(currentX, currentY, wizardSprites, fireballSprite, i ,j, wizardCooldown);</span>
+<span class="fc" id="L163">                    this.wizard = w;</span>
+<span class="fc" id="L164">                }</span>
+                //create gremlin
+<span class="fc bfc" id="L166" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'G') {</span>
+<span class="fc" id="L167">                    Gremlin g = new Gremlin(currentX, currentY, gremlinSprites, slimeSprite, i, j, gremlinCooldown, slimes);</span>
+<span class="fc" id="L168">                    this.gremlins.add(g);</span>
+<span class="fc" id="L169">                }</span>
+                //create powerup
+<span class="fc bfc" id="L171" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'P') {</span>
+<span class="fc" id="L172">                    Powerup p = new Powerup(powerupSprite, currentX, currentY, i, j);</span>
+<span class="fc" id="L173">                    this.powerups.add(p);</span>
+<span class="fc" id="L174">                }</span>
+                //create extension
+<span class="fc bfc" id="L176" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == 'D') {</span>
+<span class="fc" id="L177">                    Door d = new Door(portalSprite, currentX, currentY, i, j);</span>
+<span class="fc" id="L178">                    this.portals.add(d);</span>
+<span class="fc" id="L179">                }</span>
+                //skip empty 
+<span class="fc bfc" id="L181" title="All 2 branches covered.">                else if (lines.get(i).charAt(j) == ' ') {</span>
+<span class="fc" id="L182">                    continue;</span>
+                }
+                else{
+                    continue;
+                }
+              
+            }
+        }
+<span class="fc" id="L190">    }</span>
+    
+    /**
+     * Checks if exit door is reached by wizard
+     */
+    public void tick() {
+        
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (exitTile.isReached()) {</span>
+<span class="fc" id="L198">            this.isLevelOver = true;</span>
+        }
+<span class="fc" id="L200">    }</span>
+
+    /**
+     * Draws the entire GameMap onto the window, including all the GameObjects.
+     * Updates status of all GameObjects before drawing.
+     * 
+     * @param app   PApplet app to draw on
+     */
+    public void draw(PApplet app) {
+
+        //draw extensions
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        for (Door d : portals) {</span>
+<span class="fc" id="L212">            d.draw(app);</span>
+<span class="fc" id="L213">        }</span>
+
+        //tick all elements
+<span class="fc" id="L216">        this.wizard.tick(this.allTiles, this.gremlins, this.fireballs, this.exitTile, this.powerups, this.portals);</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">        if (wizard.isExist) {</span>
+            //draw wizard
+<span class="fc" id="L219">            this.wizard.draw(app);</span>
+        }
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        else if (wizardSpawnCounter &gt; 0) {</span>
+<span class="fc" id="L222">            wizardSpawnCounter--;</span>
+        }
+        else {
+<span class="fc" id="L225">            resetMap = true;</span>
+<span class="fc" id="L226">            wizard.isExist = true;</span>
+        }
+        
+        //draw brick tiles
+<span class="fc bfc" id="L230" title="All 2 branches covered.">        for (BrickTile b : brickTiles){</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            if (!b.isExist){</span>
+<span class="fc" id="L232">                continue;</span>
+            }
+            else {
+<span class="fc" id="L235">                b.tick();</span>
+<span class="fc" id="L236">                b.draw(app);</span>
+            }
+<span class="fc" id="L238">        }</span>
+
+        //draw stone tiles 
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        for (StoneTile s : stoneTiles) {</span>
+<span class="fc" id="L242">            s.draw(app);</span>
+<span class="fc" id="L243">        }</span>
+
+        //draw door
+<span class="fc" id="L246">        exitTile.draw(app);</span>
+
+        //draw gremlins
+<span class="fc bfc" id="L249" title="All 2 branches covered.">        for (Gremlin g : gremlins) {</span>
+<span class="fc" id="L250">            g.tick(this.allTiles, this.wizard, this.gremlins);</span>
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            if (!g.isExist){</span>
+<span class="fc" id="L252">                continue;</span>
+            }
+            else {
+<span class="fc" id="L255">                g.draw(app);</span>
+            }
+<span class="fc" id="L257">        }</span>
+
+        //draw fireballs
+<span class="fc bfc" id="L260" title="All 2 branches covered.">        for (Fireball f : fireballs) {</span>
+<span class="fc" id="L261">            f.tick(allTiles, gremlins, wizard, slimes);</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">            if (f.isAbsorbed) {</span>
+<span class="fc" id="L263">                continue;</span>
+            }
+            else {
+<span class="fc" id="L266">                f.draw(app);</span>
+            }
+    
+<span class="fc" id="L269">        }</span>
+
+        //draw slimes
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (Slime s : slimes) {</span>
+<span class="fc" id="L273">            s.tick(allTiles, gremlins, wizard, fireballs);</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">            if (s.isAbsorbed) {</span>
+<span class="fc" id="L275">                continue;</span>
+            }
+            else {
+<span class="fc" id="L278">                s.draw(app);</span>
+            }
+    
+<span class="fc" id="L281">        }</span>
+
+        //draw powerups
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        for (Powerup p : powerups) {</span>
+
+<span class="fc" id="L286">            p.tick(wizard, allTiles, gremlins, exitTile, portals);</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">            if (p.isExist) {</span>
+<span class="fc" id="L288">                p.draw(app);</span>
+            }
+<span class="fc" id="L290">        }   </span>
+
+        
+
+<span class="fc" id="L294">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

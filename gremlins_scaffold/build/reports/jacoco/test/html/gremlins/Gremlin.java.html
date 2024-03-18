@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Gremlin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Gremlin.java</span></div><h1>Gremlin.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import processing.core.PImage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+public class Gremlin extends Character {
+
+    public int slimeCounter;
+    public ArrayList&lt;Slime&gt; slimes;
+    public int respawnCounter;
+    /**
+     * Random object to handle gremlin's random movement
+     */
+    private Random rand;
+
+    /**
+     * Constructor method for Gremlin.
+     * Sets values of default attributes.
+     * Sets random initial direction of Gremlin.
+     * 
+     * @param x                 x-coordinate on window
+     * @param y                 y-coordinate on window
+     * @param sprites           images of Gremlin (normal and frozen versions)
+     * @param projectileSprite  image of Gremlin's slime
+     * @param row               row number on window grid
+     * @param column            column number on window grid
+     * @param cooldown          cooldown period for Gremlin to shoot slimes
+     * @param slimes            list of all slimes shot by Gremlin
+     */
+    public Gremlin(int x, int y, HashMap&lt;String, PImage&gt; sprites, PImage projectileSprite, int row, int column, float cooldown, ArrayList&lt;Slime&gt; slimes) {
+        
+<span class="fc" id="L35">        super(x, y, sprites, projectileSprite, row, column, cooldown);</span>
+<span class="fc" id="L36">        this.vel = 1;</span>
+<span class="fc" id="L37">        this.slimes = slimes;</span>
+<span class="fc" id="L38">        this.respawnCounter = 60;</span>
+<span class="fc" id="L39">        this.rand = new Random(hashCode());</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (this.sprites != null) {</span>
+<span class="fc" id="L41">            this.sprite = sprites.get(&quot;normal&quot;);</span>
+        }
+        
+<span class="fc" id="L44">        this.setInitialDirection();</span>
+
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Updates counter for slime shooting and counter for respawn if Gremlin is not alive.
+     * Checks collisions with other GameObjects and triggers movement.
+     * Updates row and column numbers of Gremlin.
+     * 
+     * @param allTiles      list containing all tiles on the GameMap
+     * @param wizard        Wizard object on the GameMap
+     * @param allGremlins   list containing all Gremlin objects (including this instance) on GameMap
+     */
+    public void tick(ArrayList&lt;Tile&gt; allTiles, Wizard wizard, ArrayList&lt;Gremlin&gt; allGremlins) {
+  
+<span class="fc" id="L59">        int tileHeight = 20;</span>
+<span class="fc" id="L60">        int tileWidth = 20;</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!isExist) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (respawnCounter &gt; 0) {</span>
+                //decrease respawn counter
+<span class="fc" id="L65">                respawnCounter--;</span>
+            }
+            else {
+<span class="fc" id="L68">                this.respawn(wizard, allTiles, allGremlins);</span>
+            }
+<span class="fc" id="L70">            return;</span>
+        }
+
+        // //check cooldown counter
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (cooldownCounter &gt; 0) {</span>
+<span class="fc" id="L75">            this.cooldownCounter--;</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        } else if (cooldownCounter == 0) {</span>
+<span class="fc" id="L77">            this.shootSlime(projectileSprite, slimes);</span>
+        }
+
+        //check if chosen movement will cause collision
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            if(!t.isExist) {</span>
+<span class="fc" id="L83">                continue;</span>
+            }
+<span class="fc" id="L85">            this.checkCollision(t.row, t.column);</span>
+<span class="fc" id="L86">        }</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (this.isCollided) {</span>
+<span class="fc" id="L89">            this.randomMovement(allTiles);</span>
+        }
+
+<span class="fc" id="L92">        this.move();</span>
+
+<span class="fc" id="L94">        this.row = (int) Math.floor(this.y/tileHeight);</span>
+<span class="fc" id="L95">        this.column = (int) Math.floor(this.x/tileWidth);</span>
+
+<span class="fc" id="L97">    }</span>
+
+    /**
+     * Sets random initial direction for Gremlin's movement when game starts up
+     */
+    public void setInitialDirection() {
+
+<span class="fc" id="L104">        rand.setSeed(hashCode());</span>
+<span class="fc" id="L105">        int dir = -1;</span>
+<span class="fc" id="L106">        dir = rand.nextInt(4);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (dir == 0) {</span>
+<span class="fc" id="L108">            this.moveLeft = true;</span>
+        }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        else if (dir == 1) {</span>
+<span class="fc" id="L111">            this.moveRight = true;</span>
+        }
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        else if (dir == 2) {</span>
+<span class="fc" id="L114">            this.moveUp = true;</span>
+        }
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        else if (dir == 3) {</span>
+<span class="fc" id="L117">            this.moveDown = true;</span>
+        }
+
+<span class="fc" id="L120">        this.lastMovement = dir;</span>
+<span class="fc" id="L121">    }</span>
+
+    /**
+     * Chooses random direction for Gremlin movement from available directions that will not cause collision
+     * 
+     * @param allTiles  list containing all tile objects on GameMap
+     */
+    public void randomMovement(ArrayList&lt;Tile&gt; allTiles) {
+
+<span class="fc" id="L130">        this.stop();</span>
+
+<span class="fc" id="L132">        ArrayList&lt;Integer&gt; sideDir = getSideDir();</span>
+
+        //test sideMovements
+<span class="fc" id="L135">        boolean emptySide = false;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        while (sideDir.size() &gt; 0) {</span>
+
+<span class="fc" id="L138">            int index = rand.nextInt(sideDir.size());</span>
+<span class="fc" id="L139">            int dir = sideDir.get(index);</span>
+    
+<span class="fc" id="L141">            toggleMovement(dir);</span>
+
+            //check collision
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">                if(!t.isExist) {</span>
+<span class="fc" id="L146">                    continue;</span>
+                }
+<span class="fc" id="L148">                this.checkCollision(t.row, t.column);</span>
+<span class="fc" id="L149">            }</span>
+
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (!isCollided) {</span>
+<span class="fc" id="L152">                emptySide = true;</span>
+<span class="fc" id="L153">                break;</span>
+            }
+            else {
+<span class="fc" id="L156">                sideDir.remove(index);</span>
+<span class="fc" id="L157">                this.stop();</span>
+<span class="fc" id="L158">                continue;</span>
+            }
+        }
+
+        //only allow move back if no sides are available
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (!emptySide){</span>
+<span class="pc bpc" id="L164" title="1 of 4 branches missed.">            if (lastMovement == 0 || lastMovement == 2) {</span>
+<span class="fc" id="L165">                toggleMovement(lastMovement + 1);</span>
+            }
+<span class="pc bpc" id="L167" title="1 of 4 branches missed.">            else if (lastMovement == 1 || lastMovement == 3) {</span>
+<span class="fc" id="L168">                toggleMovement(lastMovement - 1);</span>
+            }
+        }
+<span class="fc" id="L171">        this.isCollided = false;</span>
+
+        
+<span class="fc" id="L174">    }</span>
+
+    /**
+     * Checks collision for each direction 
+     * 
+     * @param allTiles  list containing all tile objects on GameMap
+     * @return list of all possible movements for Gremlin
+     */
+    public ArrayList&lt;Integer&gt; getValidDirections(ArrayList&lt;Tile&gt; allTiles) {
+        
+<span class="fc" id="L184">        ArrayList&lt;Integer&gt; sideDir = this.getSideDir();</span>
+<span class="fc" id="L185">        ArrayList&lt;Integer&gt; validDir = new ArrayList&lt;Integer&gt;();</span>
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">        for (int i : sideDir) {</span>
+<span class="fc" id="L188">            toggleMovement(i);</span>
+         
+<span class="fc bfc" id="L190" title="All 2 branches covered.">            for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">                if(!t.isExist) {</span>
+<span class="fc" id="L192">                    continue;</span>
+                }
+<span class="fc" id="L194">                this.checkCollision(t.row, t.column);</span>
+<span class="fc" id="L195">            }</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">            if (isCollided) {</span>
+<span class="fc" id="L197">                continue;</span>
+            }
+<span class="fc" id="L199">            validDir.add(i);</span>
+<span class="fc" id="L200">        }</span>
+
+<span class="fc" id="L202">        this.stop();</span>
+<span class="fc" id="L203">        return validDir;</span>
+    }
+
+    /**
+     * Finds side directions (left and right) depending on where Gremlin is facing
+     * @return list of side directions
+     */
+    public ArrayList&lt;Integer&gt; getSideDir() {
+
+<span class="fc" id="L212">        ArrayList&lt;Integer&gt; sideDir = new ArrayList&lt;Integer&gt;();</span>
+
+        //oppoite directions
+<span class="fc" id="L215">        int oppDir = -1;</span>
+<span class="fc bfc" id="L216" title="All 4 branches covered.">        if (lastMovement == 0 || lastMovement == 2) {</span>
+<span class="fc" id="L217">            oppDir = lastMovement + 1;</span>
+        }
+<span class="fc bfc" id="L219" title="All 4 branches covered.">        else if (lastMovement == 1 || lastMovement == 3) {</span>
+<span class="fc" id="L220">            oppDir = lastMovement - 1;</span>
+        }
+
+<span class="fc bfc" id="L223" title="All 2 branches covered.">        for (int i = 0 ; i &lt; 4 ; i++) {</span>
+<span class="fc bfc" id="L224" title="All 4 branches covered.">            if (i == lastMovement || i == oppDir) </span>
+<span class="fc" id="L225">                continue;</span>
+<span class="fc" id="L226">            sideDir.add(i);</span>
+        }
+        
+<span class="fc" id="L229">        return sideDir;</span>
+    }
+
+    /**
+     * Switches movement directions according to direction number given 
+     * @param dir   direction to make Gremlin move in (0 for left, 1 for right, 2 for up, 3 for down)
+     */
+    public void toggleMovement(int dir) {
+
+<span class="fc bfc" id="L238" title="All 2 branches covered.">        if (dir == 0) {</span>
+<span class="fc" id="L239">            this.moveLeft = true;</span>
+        }
+<span class="fc bfc" id="L241" title="All 2 branches covered.">        else if (dir == 1) {</span>
+<span class="fc" id="L242">            this.moveRight = true;</span>
+        }
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        else if (dir == 2) {</span>
+<span class="fc" id="L245">            this.moveUp = true;</span>
+        }
+<span class="fc bfc" id="L247" title="All 2 branches covered.">        else if (dir == 3) {</span>
+<span class="fc" id="L248">            this.moveDown = true;</span>
+        }
+
+<span class="fc" id="L251">    }</span>
+
+    /**
+     * Starts sequence for slime shooting and adds slime object into list of all slimes on map.
+     * Starts counter for cooldown before next shoot
+     * 
+     * @param slimeSprite   image of slime  
+     * @param slimes        list containing all slime objects on GameMap
+     */
+    public void shootSlime(PImage slimeSprite, ArrayList&lt;Slime&gt; slimes) {
+
+<span class="fc" id="L262">        shootProjectile = true;</span>
+<span class="fc" id="L263">        cooldownCounter = (int) Math.ceil(cooldown * 60);</span>
+<span class="fc" id="L264">        Slime slime = new Slime(this.x, this.y, slimeSprite, this.lastMovement);</span>
+<span class="fc" id="L265">        slimes.add(slime);</span>
+
+<span class="fc" id="L267">    }</span>
+
+    /**
+     * Respawns Gremlin at a random location on map.
+     * Location is at least 10 tiles away from Wizard and does not overlap with other objects
+     * 
+     * @param wizard        Wizard object on map    
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing all Gremlins on map
+     */
+    public void respawn(Wizard wizard, ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins) {
+<span class="fc" id="L278">        this.isExist = true;</span>
+<span class="fc" id="L279">        this.isCollided = false;</span>
+
+        //get radius of wizard 
+<span class="fc" id="L282">        int leftBound = wizard.column - 10;</span>
+<span class="fc" id="L283">        int rightBound = wizard.column + 10;</span>
+<span class="fc" id="L284">        int upBound = wizard.row - 10;</span>
+<span class="fc" id="L285">        int downBound = wizard.row + 10;</span>
+        //check against window bounds
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        if (leftBound &lt; 0) {</span>
+<span class="fc" id="L288">            leftBound = 0;</span>
+        }
+<span class="fc bfc" id="L290" title="All 2 branches covered.">        if (rightBound &gt; 35) {</span>
+<span class="fc" id="L291">            rightBound = 35;</span>
+        }
+<span class="fc bfc" id="L293" title="All 2 branches covered.">        if (upBound &lt; 0) {</span>
+<span class="fc" id="L294">            upBound = 0;</span>
+        }
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (downBound &gt; 32) {</span>
+<span class="fc" id="L297">            downBound = 32;</span>
+        }
+
+
+        //get eligible numbers
+<span class="fc" id="L302">        ArrayList&lt;Integer&gt; newRowRange = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L303">        addNumbersToRange(newRowRange, 0, upBound);</span>
+<span class="fc" id="L304">        addNumbersToRange(newRowRange, downBound, 32);</span>
+<span class="fc" id="L305">        ArrayList&lt;Integer&gt; newColumnRange = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L306">        addNumbersToRange(newColumnRange, 0, leftBound);</span>
+<span class="fc" id="L307">        addNumbersToRange(newColumnRange, rightBound, 35);</span>
+
+        while (true) {
+            
+<span class="fc" id="L311">            int newRow = newRowRange.get(rand.nextInt(newRowRange.size()));</span>
+<span class="fc" id="L312">            int newColumn = newColumnRange.get(rand.nextInt(newColumnRange.size()));</span>
+            
+<span class="fc" id="L314">            boolean isOverlap = checkOverlap(newRow, newColumn, allTiles, allGremlins);</span>
+
+<span class="fc bfc" id="L316" title="All 2 branches covered.">            if (!isOverlap) {</span>
+                //update coords
+<span class="fc" id="L318">                this.row = newRow;</span>
+<span class="fc" id="L319">                this.column = newColumn;</span>
+<span class="fc" id="L320">                this.x = this.column * 20;</span>
+<span class="fc" id="L321">                this.y = this.row * 20;</span>
+<span class="fc" id="L322">                break;</span>
+            }
+            else {
+                continue;
+            }
+        }
+
+<span class="fc" id="L329">    }</span>
+
+    /**
+     * Helper function for Gremlin respawn.
+     * Adds numbers between a range into a existing list.
+     * 
+     * @param rangeNumbers  existing list 
+     * @param min           lower bound of range
+     * @param max           upper bound of range
+     * @return updated list containing new range of numbers
+     */
+    public ArrayList&lt;Integer&gt; addNumbersToRange(ArrayList&lt;Integer&gt; rangeNumbers, int min, int max) {
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        for (int i = min; i &lt;= max; i++) {</span>
+<span class="fc" id="L342">            rangeNumbers.add(i);</span>
+        }
+<span class="fc" id="L344">        return rangeNumbers;</span>
+    }
+
+    /**
+     * Generates random coordinate
+     * 
+     * @param bound upper bound for coordinate
+     * @return random coordinate within bound
+     */
+    public int getRandomCoord(int bound) {
+<span class="fc" id="L354">        int coord = rand.nextInt(bound);</span>
+<span class="fc" id="L355">        return coord;</span>
+
+    }
+
+    /**
+     * Checks if the row and column numbers overlap with other objects on map
+     * 
+     * @param newRow        row number on window grid to be checked
+     * @param newColumn     column number on window grid to be checked
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing all Gremlins on map
+     * @return true if new coordinates overlap with another object on map
+     */
+    public boolean checkOverlap(int newRow, int newColumn, ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins) {
+
+<span class="fc" id="L370">        boolean isOverlap = false;</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">            for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L372" title="All 2 branches covered.">                if (!t.isExist) {</span>
+<span class="fc" id="L373">                    continue;</span>
+                }
+<span class="fc bfc" id="L375" title="All 4 branches covered.">                if ((newRow == t.row) &amp;&amp; (newColumn == t.column)) {</span>
+<span class="fc" id="L376">                    isOverlap = true;</span>
+<span class="fc" id="L377">                    break;</span>
+                }
+<span class="fc" id="L379">            }</span>
+
+<span class="fc bfc" id="L381" title="All 2 branches covered.">            for (Gremlin g : allGremlins) {</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">                if (!g.isExist) {</span>
+<span class="fc" id="L383">                    continue;</span>
+                }
+<span class="pc bpc" id="L385" title="1 of 4 branches missed.">                if ((newRow == g.row) &amp;&amp; (newColumn == g.column)) {</span>
+<span class="fc" id="L386">                    isOverlap = true;</span>
+<span class="fc" id="L387">                    break;</span>
+                }
+<span class="fc" id="L389">            }</span>
+
+<span class="fc" id="L391">            return isOverlap;</span>
+    }
+    
+    /**
+     * Freezes Gremlin when Powerup is absorbed by Wizard by stopping Gremlin movement.
+     * Chnages sprite of Gremlin to its frozen version
+     * 
+     * @return current velocity of Gremlin
+     */
+    public int freeze() {
+
+<span class="fc" id="L402">        this.vel = 0;</span>
+<span class="fc" id="L403">        this.sprite = this.sprites.get(&quot;frozen&quot;);</span>
+<span class="fc" id="L404">        return this.vel;</span>
+    }
+
+    /**
+     * Unfreezes Gremlin and changes sprite back to its normal version
+     * 
+     * @return current velocity of Gremlin
+     */
+    public int unfreeze() {
+<span class="fc" id="L413">        this.vel = 1;</span>
+<span class="fc" id="L414">        this.sprite = this.sprites.get(&quot;normal&quot;);</span>
+<span class="fc" id="L415">        return this.vel;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

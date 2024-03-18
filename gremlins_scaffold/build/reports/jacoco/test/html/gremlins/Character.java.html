@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Character.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Character.java</span></div><h1>Character.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.util.HashMap;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+
+public class Character extends GameObject{
+    
+    public PImage projectileSprite;
+    public int vel;
+    public int projectileVel;
+    public boolean isCollided;
+
+    //movement attributes
+    public boolean moveLeft;
+    public boolean moveRight;
+    public boolean moveUp;
+    public boolean moveDown;
+    /**
+     * Last movement direction of Character (0 for left, 1 for right, 2 for up, 3 for down)
+     */
+    public int lastMovement;
+
+    //projectile attributes
+    public boolean shootProjectile;
+    public float cooldown;
+    public int cooldownCounter;
+
+
+    /**
+     * Constructor method for Character with one sprite
+     * 
+     * @param x         x-coordinate on window
+     * @param y         y-coordinate on window
+     * @param sprite    image of Character
+     * @param projectileSprite  image of projectile that Character shoots
+     * @param row   row number on window grid
+     * @param column    column number on window grid
+     * @param cooldown  cooldown time for shooting projectiles
+     */
+    public Character(int x, int y, PImage sprite, PImage projectileSprite, int row, int column, float cooldown) {
+
+<span class="fc" id="L44">        super(sprite, x, y, row, column);</span>
+
+<span class="fc" id="L46">        this.isExist = true;</span>
+<span class="fc" id="L47">        this.projectileSprite = projectileSprite;</span>
+<span class="fc" id="L48">        this.vel = 0;</span>
+<span class="fc" id="L49">        this.projectileVel = 0;</span>
+<span class="fc" id="L50">        this.isCollided = false;</span>
+<span class="fc" id="L51">        this.moveLeft = false;</span>
+<span class="fc" id="L52">        this.moveRight = false;</span>
+<span class="fc" id="L53">        this.moveUp = false;</span>
+<span class="fc" id="L54">        this.moveDown = false;</span>
+<span class="fc" id="L55">        this.shootProjectile = false;</span>
+<span class="fc" id="L56">        this.cooldown = cooldown;</span>
+
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * Constructor method for Character with multiple sprites
+     * 
+     * @param x                 x-coordinate on window
+     * @param y                 y-coordinate on window
+     * @param sprites           images of Character
+     * @param projectileSprite  image of projectile that Character shoots
+     * @param row               row number on window grid
+     * @param column            column number on window grid
+     * @param cooldown          cooldown time for shooting projectiles
+     */
+    public Character(int x, int y, HashMap&lt;String, PImage&gt; sprites, PImage projectileSprite, int row, int column, float cooldown) {
+<span class="fc" id="L72">        super(sprites, x, y, row, column);</span>
+        
+<span class="fc" id="L74">        this.isExist = true;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (this.sprites != null) {</span>
+<span class="fc" id="L76">            this.sprite = sprites.get(&quot;left&quot;);</span>
+        }
+<span class="fc" id="L78">        this.projectileSprite = projectileSprite;</span>
+<span class="fc" id="L79">        this.vel = 0;</span>
+<span class="fc" id="L80">        this.projectileVel = 0;</span>
+<span class="fc" id="L81">        this.isCollided = false;</span>
+<span class="fc" id="L82">        this.moveLeft = false;</span>
+<span class="fc" id="L83">        this.moveRight = false;</span>
+<span class="fc" id="L84">        this.moveUp = false;</span>
+<span class="fc" id="L85">        this.moveDown = false;</span>
+<span class="fc" id="L86">        this.cooldown = cooldown;</span>
+<span class="fc" id="L87">        this.cooldownCounter = 0;</span>
+<span class="fc" id="L88">    }</span>
+
+    /**
+     * Takes in the row and column numbers of another game object and checks if character collides with it
+     * 
+     * @param row       row number of other game object on window grid
+     * @param column    column number of other game object on window grid
+     * @return true if character collides with object, and false if it does not
+     */
+    public boolean checkCollision(int row, int column){
+
+<span class="fc bfc" id="L99" title="All 6 branches covered.">        if (moveLeft &amp;&amp; (this.column - 1 == column) &amp;&amp; (this.row == row)) {</span>
+<span class="fc" id="L100">                this.isCollided = true;</span>
+<span class="fc" id="L101">                return true;</span>
+        }
+<span class="fc bfc" id="L103" title="All 6 branches covered.">        if (moveRight &amp;&amp; (this.column + 1 == column) &amp;&amp; (this.row == row)) {</span>
+<span class="fc" id="L104">            this.isCollided = true;</span>
+<span class="fc" id="L105">            return true;</span>
+        }
+<span class="fc bfc" id="L107" title="All 6 branches covered.">        if (moveUp &amp;&amp; (this.row - 1 == row) &amp;&amp; (this.column == column)) {</span>
+<span class="fc" id="L108">            this.isCollided = true;</span>
+<span class="fc" id="L109">            return true;</span>
+        }
+<span class="fc bfc" id="L111" title="All 6 branches covered.">        if (moveDown &amp;&amp; (this.row + 1 == row) &amp;&amp; (this.column == column)) {</span>
+<span class="fc" id="L112">            this.isCollided = true;</span>
+<span class="fc" id="L113">            return true;</span>
+        }
+    
+<span class="fc" id="L116">        return false;</span>
+        
+    }
+
+    /**
+     * Moves Character depending on its direction attributes.
+     * Borders are added to prevent movement off screen.
+     * Snaps Character to next full tile.
+     */
+    public void move() {
+<span class="fc" id="L126">        int leftBorder = 0;</span>
+<span class="fc" id="L127">        int rightBorder = 720;</span>
+<span class="fc" id="L128">        int topBorder = 0;</span>
+<span class="fc" id="L129">        int bottomBorder = 660;</span>
+
+
+<span class="fc bfc" id="L132" title="All 4 branches covered.">        if ((this.x % 20 == 0) &amp;&amp; (this.y % 20 == 0)){</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            if (this.moveLeft) {</span>
+<span class="fc bfc" id="L134" title="All 4 branches covered.">                if (this.x &gt; leftBorder &amp;&amp; !isCollided) {</span>
+<span class="fc" id="L135">                    this.x -= this.vel;</span>
+<span class="fc" id="L136">                    this.lastMovement = 0;</span>
+                }
+            }
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">            else if (this.moveRight) {</span>
+<span class="fc bfc" id="L141" title="All 4 branches covered.">                if (this.x &lt; rightBorder &amp;&amp; !isCollided) {</span>
+<span class="fc" id="L142">                    this.x += this.vel;</span>
+<span class="fc" id="L143">                    this.lastMovement = 1;</span>
+                }
+            }
+
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            else if (this.moveUp) {</span>
+<span class="fc bfc" id="L148" title="All 4 branches covered.">                if (this.y &gt; topBorder &amp;&amp; !isCollided) {</span>
+<span class="fc" id="L149">                    this.y -= this.vel;</span>
+<span class="fc" id="L150">                    this.lastMovement = 2;</span>
+                }
+            }
+
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            else if (this.moveDown) {</span>
+<span class="fc bfc" id="L155" title="All 4 branches covered.">                if (this.y &lt; bottomBorder &amp;&amp; !isCollided) {</span>
+<span class="fc" id="L156">                    this.y += this.vel;</span>
+<span class="fc" id="L157">                    this.lastMovement = 3;</span>
+                }
+            }
+        }
+        else {
+            //move wizard to next full tile
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            if (this.lastMovement == 0) {</span>
+<span class="fc" id="L164">                this.x -= vel;</span>
+            }
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            else if (this.lastMovement == 1) {</span>
+<span class="fc" id="L167">                this.x += vel;</span>
+            }
+<span class="fc bfc" id="L169" title="All 2 branches covered.">            else if (this.lastMovement == 2) {</span>
+<span class="fc" id="L170">                this.y -= vel;</span>
+            }
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            else if (this.lastMovement == 3) {</span>
+<span class="fc" id="L173">                this.y += vel;</span>
+            }
+        }
+<span class="fc" id="L176">    }</span>
+
+    /**
+     * Stops the Character from moving by switching all the movement attributes to false
+     */
+    public void stop() {
+<span class="fc" id="L182">        this.moveLeft = false;</span>
+<span class="fc" id="L183">        this.moveRight = false;</span>
+<span class="fc" id="L184">        this.moveUp = false;</span>
+<span class="fc" id="L185">        this.moveDown = false;</span>
+<span class="fc" id="L186">        this.isCollided = false;</span>
+<span class="fc" id="L187">    }</span>
+
+    /**
+     * Kills the Character
+     */
+    public void kill() {
+<span class="fc" id="L193">        this.isExist = false;</span>
+<span class="fc" id="L194">        this.isCollided = false;</span>
+<span class="fc" id="L195">    }</span>
+
+    /**
+     * Draws the Character onto the window
+     * 
+     * @param app   PApplet app that Character should be drawn in
+     */
+    public void draw(PApplet app) {
+
+<span class="fc" id="L204">        app.image(this.sprite, x, y);</span>
+        
+<span class="fc" id="L206">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

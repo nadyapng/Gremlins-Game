@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.ProjectileTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.023">
+  <properties/>
+  <testcase name="moveTest10()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest11()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="moveTest12()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="checkCollisionTest1()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="checkCollisionTest2()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="checkCollisionTest3()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="checkCollisionTest4()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="checkCollisionTest5()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="checkCollisionTest6()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="checkCollisionTest7()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="checkCollisionTest8()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="constructorTest1()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="constructorTest2()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="constructorTest3()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="constructorTest4()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="constructorTest5()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest1()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest2()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="moveTest3()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <testcase name="moveTest4()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest5()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest6()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest7()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest8()" classname="gremlins.ProjectileTest" time="0.0"/>
+  <testcase name="moveTest9()" classname="gremlins.ProjectileTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

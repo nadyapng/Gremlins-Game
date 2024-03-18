@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.TileTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.001">
+  <properties/>
+  <testcase name="constructorTest1()" classname="gremlins.TileTest" time="0.0"/>
+  <testcase name="constructorTest2()" classname="gremlins.TileTest" time="0.001"/>
+  <testcase name="hitTest()" classname="gremlins.TileTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

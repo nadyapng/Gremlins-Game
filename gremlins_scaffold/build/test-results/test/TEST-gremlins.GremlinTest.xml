@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.GremlinTest" tests="31" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.047">
+  <properties/>
+  <testcase name="unfreezeTest()" classname="gremlins.GremlinTest" time="0.002"/>
+  <testcase name="getSideDirTest()" classname="gremlins.GremlinTest" time="0.002"/>
+  <testcase name="setInitialDirectionTest()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTest1()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTest2()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTest3()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTest5()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTest6()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="getValidDirectionsTest1()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="getValidDirectionsTest2()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="constructorTest1()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="constructorTest2()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="tickTest1()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="tickTest2()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="tickTest3()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="freezeTest()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="getRandomCoordTest()" classname="gremlins.GremlinTest" time="0.002"/>
+  <testcase name="shootSlimeTest()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="checkOverlapTest1()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="checkOverlapTest2()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="checkOverlapTest3()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="toggleMovementTest1()" classname="gremlins.GremlinTest" time="0.002"/>
+  <testcase name="toggleMovementTest2()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="toggleMovementTest3()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="toggleMovementTest4()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="toggleMovementTest5()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="randomMovementTes4()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="respawnTest1()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="respawnTest2()" classname="gremlins.GremlinTest" time="0.001"/>
+  <testcase name="respawnTest3()" classname="gremlins.GremlinTest" time="0.0"/>
+  <testcase name="respawnTest4()" classname="gremlins.GremlinTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

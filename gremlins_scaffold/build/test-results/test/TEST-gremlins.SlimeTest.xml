@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.SlimeTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.005">
+  <properties/>
+  <testcase name="constructorTest()" classname="gremlins.SlimeTest" time="0.0"/>
+  <testcase name="tickTest1()" classname="gremlins.SlimeTest" time="0.0"/>
+  <testcase name="tickTest2()" classname="gremlins.SlimeTest" time="0.0"/>
+  <testcase name="tickTest3()" classname="gremlins.SlimeTest" time="0.001"/>
+  <testcase name="tickTest4()" classname="gremlins.SlimeTest" time="0.0"/>
+  <testcase name="tickTest5()" classname="gremlins.SlimeTest" time="0.0"/>
+  <testcase name="tickTest6()" classname="gremlins.SlimeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

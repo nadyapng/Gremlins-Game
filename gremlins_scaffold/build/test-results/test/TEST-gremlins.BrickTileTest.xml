@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.BrickTileTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.018">
+  <properties/>
+  <testcase name="decreaseCounterTest()" classname="gremlins.BrickTileTest" time="0.002"/>
+  <testcase name="resetCounterTest()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="constructorTest1()" classname="gremlins.BrickTileTest" time="0.002"/>
+  <testcase name="constructorTest2()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTest1()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTest2()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTest3()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTest4()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTest5()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="hitTest()" classname="gremlins.BrickTileTest" time="0.001"/>
+  <testcase name="increaseDestructionStatus1()" classname="gremlins.BrickTileTest" time="0.001"/>
+  <testcase name="increaseDestructionStatus2()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="increaseDestructionStatus3()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="increaseDestructionStatus4()" classname="gremlins.BrickTileTest" time="0.001"/>
+  <testcase name="increaseDestructionStatus5()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <testcase name="tickTes6()" classname="gremlins.BrickTileTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

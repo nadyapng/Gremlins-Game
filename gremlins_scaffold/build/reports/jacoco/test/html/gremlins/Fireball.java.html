@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fireball.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Fireball.java</span></div><h1>Fireball.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.util.ArrayList;
+
+import processing.core.PImage;
+
+public class Fireball extends Projectile {
+    
+    /**
+     * Constructor method for wizard's Fireball
+     * 
+     * @param x         x-coordinate on window
+     * @param y         y-coordinate on window
+     * @param sprite    image of Fireball
+     * @param dir       direction that Fireball is travelling in (same direction as wizard's movement)
+     */
+    public Fireball(int x, int y, PImage sprite, int dir) {
+<span class="fc" id="L18">        super(x, y, sprite, dir);</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Checks collisions and triggers movement of Fireball.
+     * Updates row and column numbers of Fireball depending on x and y-coordinates.
+     * 
+     * @param allTiles      list containing all tile objects on the map
+     * @param allGremlins   list containing all gremlin objects on the map
+     * @param wizard        wizard object on the map
+     * @param slimes        list containing all slimes on the map
+     */
+    public void tick(ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins, Wizard wizard, ArrayList&lt;Slime&gt; slimes) {
+
+<span class="fc" id="L32">        int tileHeight = 20;</span>
+<span class="fc" id="L33">        int tileWidth = 20;</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (isAbsorbed) {</span>
+<span class="fc" id="L36">            return;</span>
+        }
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (!t.isExist) {</span>
+<span class="fc" id="L41">                continue;</span>
+            }
+<span class="fc" id="L43">            boolean collideWall = this.checkCollision(t.row, t.column);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            if (collideWall) {</span>
+<span class="fc" id="L45">                t.hit();</span>
+<span class="fc" id="L46">                continue;</span>
+            }
+<span class="fc" id="L48">        }</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (Gremlin g : allGremlins) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">            if (!g.isExist) {</span>
+<span class="fc" id="L52">                continue;</span>
+            }
+<span class="fc" id="L54">            boolean hitGremlin = this.checkCollision(g.row, g.column);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (hitGremlin) {</span>
+<span class="fc" id="L56">                g.kill();</span>
+<span class="fc" id="L57">                continue;</span>
+            }
+<span class="fc" id="L59">        }</span>
+
+        //check hit slime
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (Slime s : slimes) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (s.isAbsorbed){</span>
+<span class="fc" id="L64">                continue;</span>
+            }
+<span class="fc" id="L66">            this.checkCollision(s.row, s.column);</span>
+<span class="fc" id="L67">        }</span>
+
+<span class="fc" id="L69">        this.move();</span>
+
+<span class="fc" id="L71">        this.row = (int) Math.floor(this.y/tileHeight);</span>
+<span class="fc" id="L72">        this.column = (int) Math.floor(this.x/tileWidth);</span>
+<span class="fc" id="L73">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gremlins.WizardTest2" tests="45" skipped="0" failures="0" errors="0" timestamp="2022-10-27T02:44:46" hostname="nadyas-mbp.student.wireless.sydney.edu.au" time="0.047">
+  <properties/>
+  <testcase name="pressLeftTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressLeftTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="teleportTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="teleportTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="releaseRightTest()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressUpTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="pressUpTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="releaseSpaceTest()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="releaseUpTest()" classname="gremlins.WizardTest2" time="0.002"/>
+  <testcase name="absorbPowerupTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="absorbPowerupTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="releaseDownTest()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="releaseLeftTest()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="endPowerupTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="endPowerupTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="pressSpaceTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="pressSpaceTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="pressSpaceTest3()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressSpaceTest4()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkStationaryTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkStationaryTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkStationaryTest3()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="constructorTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="constructorTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="tickTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="tickTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="tickTest3()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="tickTest4()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest10()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="checkHitGremlinTest11()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest12()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest13()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest1()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest2()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest3()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest4()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="checkHitGremlinTest5()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="checkHitGremlinTest6()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="checkHitGremlinTest7()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="checkHitGremlinTest8()" classname="gremlins.WizardTest2" time="0.006"/>
+  <testcase name="checkHitGremlinTest9()" classname="gremlins.WizardTest2" time="0.0"/>
+  <testcase name="pressDownTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressDownTest2()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressRightTest1()" classname="gremlins.WizardTest2" time="0.001"/>
+  <testcase name="pressRightTest2()" classname="gremlins.WizardTest2" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

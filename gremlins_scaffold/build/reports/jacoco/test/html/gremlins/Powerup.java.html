@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Powerup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Powerup.java</span></div><h1>Powerup.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import processing.core.PImage;
+
+public class Powerup extends Tile {
+    
+    public int originalSpawnCounter;
+    public int spawnCounter;
+    public Random rand;
+    public boolean firstSpawn;
+
+    /**
+     * Constructor method for Powerup.
+     * Sets values of default attributes and sets seed for random object.
+     * 
+     * @param textureImage  image of Powerup
+     * @param x             x-coordinate on window
+     * @param y             y-coordinate on window
+     * @param row           row number on window grid
+     * @param column        column number on window grid
+     */
+    public Powerup(PImage textureImage, int x, int y, int row, int column) {
+        
+<span class="fc" id="L27">        super(textureImage, x, y, row, column);</span>
+<span class="fc" id="L28">        this.spawnCounter = 180;</span>
+<span class="fc" id="L29">        this.isExist = false;</span>
+<span class="fc" id="L30">        this.rand = new Random(hashCode());</span>
+<span class="fc" id="L31">        this.firstSpawn = true;</span>
+
+<span class="fc" id="L33">    }</span>
+
+    /**
+     * Updates counter for spawning and respawns Powerup after counter runs out
+     * 
+     * @param wizard        Wizard object on map
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing all Gremlins on map
+     * @param exitDoor      exit door on map
+     * @param portals       list containing all portals on map
+     */
+    public void tick(Wizard wizard, ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins, Door exitDoor, ArrayList&lt;Door&gt; portals) {
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (this.spawnCounter &gt; 0) {</span>
+<span class="fc" id="L47">            this.spawnCounter--;</span>
+        }
+<span class="pc bpc" id="L49" title="1 of 6 branches missed.">        else if (this.firstSpawn &amp;&amp; this.spawnCounter == 0 &amp;&amp; !this.isExist) {</span>
+<span class="fc" id="L50">            this.isExist = true;</span>
+<span class="fc" id="L51">            this.firstSpawn = false;</span>
+        }
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">        else if (this.spawnCounter == 0 &amp;&amp; !this.isExist) {</span>
+<span class="fc" id="L54">            this.respawn(wizard, allTiles, allGremlins, exitDoor, portals);</span>
+        }
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Respawns Powerup at a random location that does not overlap with another object on map
+     * 
+     * @param wizard        Wizard object on map
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing all gremlins on map
+     * @param exitDoor      exit door on map
+     * @param portals       list containing all portals on map
+     */
+    public void respawn(Wizard wizard, ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins, Door exitDoor, ArrayList&lt;Door&gt; portals) {
+
+        while (true) {
+            //get random coords
+<span class="fc" id="L71">            int newRow = rand.nextInt(32);</span>
+<span class="fc" id="L72">            int newColumn = rand.nextInt(35);</span>
+
+            //check overlap
+<span class="fc" id="L75">            boolean isOverlap = checkOverlap(newRow, newColumn, wizard, allTiles, allGremlins, exitDoor, portals);</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (!isOverlap) {</span>
+                //update coords
+<span class="fc" id="L79">                this.row = newRow;</span>
+<span class="fc" id="L80">                this.column = newColumn;</span>
+<span class="fc" id="L81">                this.x = this.column * 20;</span>
+<span class="fc" id="L82">                this.y = this.row * 20;</span>
+<span class="fc" id="L83">                isExist = true;</span>
+<span class="fc" id="L84">                break;</span>
+            }
+            else {
+                continue;
+            }
+        }
+
+<span class="fc" id="L91">    }</span>
+
+    /**
+     * Checks if coordinates overlap with another object on map
+     * 
+     * @param newRow        row number on window to be checked
+     * @param newColumn     column number on window to be checked
+     * @param wizard        Wizard object on map
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing Gremlins on map
+     * @param exitDoor      exit door on map
+     * @param portals       list containing all portals on map
+     * @return true if coordinates overlap with another object on map
+     */
+    public boolean checkOverlap(int newRow, int newColumn, Wizard wizard, ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins, Door exitDoor, ArrayList&lt;Door&gt; portals) {
+
+<span class="fc" id="L107">        boolean isOverlap = false;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">                if (!t.isExist) {</span>
+<span class="fc" id="L110">                    continue;</span>
+                }
+<span class="fc bfc" id="L112" title="All 4 branches covered.">                if ((newRow == t.row) &amp;&amp; (newColumn == t.column)) {</span>
+<span class="fc" id="L113">                    isOverlap = true;</span>
+<span class="fc" id="L114">                    break;</span>
+                }
+<span class="fc" id="L116">            }</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            for (Gremlin g : allGremlins) {</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                if (!g.isExist) {</span>
+<span class="fc" id="L120">                    continue;</span>
+                }
+<span class="fc bfc" id="L122" title="All 4 branches covered.">                if ((newRow == g.row) &amp;&amp; (newColumn == g.column)) {</span>
+<span class="fc" id="L123">                    isOverlap = true;</span>
+<span class="fc" id="L124">                    break;</span>
+                }
+<span class="fc" id="L126">            }</span>
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            if (wizard.isExist) {</span>
+<span class="fc bfc" id="L129" title="All 4 branches covered.">                if ((newRow == wizard.row) &amp;&amp; (newColumn == wizard.column)) {</span>
+<span class="fc" id="L130">                    isOverlap = true;</span>
+                }
+            }
+
+            
+<span class="fc bfc" id="L135" title="All 4 branches covered.">            if ((newRow == exitDoor.row) &amp;&amp; (newColumn == exitDoor.column)) {</span>
+<span class="fc" id="L136">                isOverlap = true;</span>
+            }
+
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            for (Door s : portals) {</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">                if (!s.isExist) {</span>
+<span class="fc" id="L141">                    continue;</span>
+                }
+<span class="fc bfc" id="L143" title="All 4 branches covered.">                if ((newRow == s.row) &amp;&amp; (newColumn == s.column)) {</span>
+<span class="fc" id="L144">                    isOverlap = true;</span>
+<span class="fc" id="L145">                    break;</span>
+                }
+<span class="fc" id="L147">            }</span>
+            
+<span class="fc" id="L149">            return isOverlap;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wizard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Wizard.java</span></div><h1>Wizard.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import processing.core.PImage;
+
+public class Wizard extends Character {
+
+    public boolean isStationary;
+    public boolean isPoweredUp;
+    public int powerupCounter;
+
+    /**
+     * Constructor method for Wizard.
+     * Sets default values for velocity, projctile velocity, counter and boolean attributes.
+     * 
+     * @param x                 x-coordinate on window
+     * @param y                 y-coordinate on window
+     * @param sprites           images of Wizard, including images for all directions
+     * @param projectileSprite  image of Wizard's fireball
+     * @param row               row number on window grid
+     * @param column            column number on column grid
+     * @param cooldown          cooldown for Wizard shooting fireball
+     */
+    public Wizard(int x, int y, HashMap&lt;String, PImage&gt; sprites, PImage projectileSprite, int row, int column, float cooldown) {
+        
+<span class="fc" id="L28">        super(x, y, sprites, projectileSprite, row, column, cooldown);</span>
+<span class="fc" id="L29">        this.vel = 2;</span>
+<span class="fc" id="L30">        this.projectileVel = 4;</span>
+<span class="fc" id="L31">        this.isStationary = true;</span>
+<span class="fc" id="L32">        this.isPoweredUp = false;</span>
+<span class="fc" id="L33">        this.powerupCounter = 0;</span>
+
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Checks Wizard movement and checks collision of Wizard with other objects on map.
+     * Checks if Wizard reaches exit door and triggers level change sequence if so.
+     * Checks if Wizard collects powerup and triggers powerup effects if so.
+     * Checks if Wizard enters portal and teleports Wizard.
+     * Updates counters for fireball shooting countdown.
+     * Triggers Wizard movement.
+     * 
+     * @param allTiles  list containing all tiles on map
+     * @param gremlins  list containing all gremlins on map
+     * @param fireballs list containing all fireballs on map
+     * @param exitDoor  exit door on map
+     * @param powerups  list containing all powerups on map
+     * @param portals   list containing all portals on map
+     */
+    public void tick(ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; gremlins, ArrayList&lt;Fireball&gt; fireballs, Door exitDoor, ArrayList&lt;Powerup&gt; powerups, ArrayList&lt;Door&gt; portals) {
+
+<span class="fc" id="L54">        int tileHeight = 20;</span>
+<span class="fc" id="L55">        int tileWidth = 20;</span>
+
+        // check if wizard is stationary
+<span class="fc" id="L58">        this.checkStationary();</span>
+
+        //check cooldown counter
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (cooldownCounter &gt; 0) {</span>
+<span class="fc" id="L62">            this.cooldownCounter--;</span>
+        }
+    
+        //check if chosen movement will cause collision
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            if(!t.isExist) {</span>
+<span class="fc" id="L68">                continue;</span>
+            }
+<span class="fc" id="L70">            this.checkCollision(t.row, t.column);</span>
+<span class="fc" id="L71">        }</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (Gremlin g : gremlins) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (!g.isExist) {</span>
+<span class="fc" id="L75">                continue;</span>
+            }
+<span class="fc" id="L77">            this.checkHitGremlin(g);</span>
+<span class="fc" id="L78">        }</span>
+
+        //check if reach exit door
+<span class="fc" id="L81">        boolean reachExit = this.checkCollision(exitDoor.row, exitDoor.column);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (reachExit) {</span>
+<span class="fc" id="L83">            exitDoor.reach();</span>
+        }
+
+        //check hit powerup
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (Powerup p : powerups) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (!p.isExist) {</span>
+<span class="fc" id="L89">                continue;</span>
+            }
+<span class="fc" id="L91">            boolean collectPowerup = this.checkCollision(p.row, p.column);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            if (collectPowerup) {</span>
+<span class="fc" id="L93">                this.absorbPowerup(p, gremlins);</span>
+            }
+<span class="fc" id="L95">        }</span>
+        //check powerup counter
+<span class="fc bfc" id="L97" title="All 4 branches covered.">        if (isPoweredUp &amp;&amp; powerupCounter &gt; 0) {</span>
+<span class="fc" id="L98">            powerupCounter--;</span>
+        }
+<span class="pc bpc" id="L100" title="1 of 4 branches missed.">        else if (isPoweredUp &amp;&amp; powerupCounter == 0) {</span>
+<span class="fc" id="L101">            this.endPowerup(gremlins);</span>
+        }
+
+        //check portal
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (Door d : portals) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (checkCollision(d.row, d.column)) {</span>
+<span class="fc" id="L107">                this.teleport(portals, portals.indexOf(d));</span>
+            }
+<span class="fc" id="L109">        }</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (!isExist) {</span>
+<span class="fc" id="L112">            return;</span>
+        }
+
+<span class="fc" id="L115">        this.move();</span>
+
+<span class="fc" id="L117">        this.row = (int) Math.floor(this.y/tileHeight);</span>
+<span class="fc" id="L118">        this.column = (int) Math.floor(this.x/tileWidth);</span>
+
+        
+<span class="fc" id="L121">    }</span>
+
+    /**
+     * Changes Wizard's movement direction to left 
+     */
+    public void pressLeft() {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (lastMovement != 0) {</span>
+<span class="fc" id="L128">            this.stop();</span>
+        }
+<span class="fc" id="L130">        this.moveLeft = true;</span>
+<span class="fc" id="L131">        this.sprite = this.sprites.get(&quot;left&quot;);</span>
+<span class="fc" id="L132">        this.lastMovement = 0;</span>
+
+<span class="fc" id="L134">    }</span>
+
+    /**
+     * Changes Wizard's movement direction to right 
+     */
+    public void pressRight() {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if (lastMovement != 1) {</span>
+<span class="fc" id="L141">            this.stop();</span>
+        }
+<span class="fc" id="L143">        this.moveRight = true;</span>
+<span class="fc" id="L144">        this.sprite = this.sprites.get(&quot;right&quot;);</span>
+<span class="fc" id="L145">        this.lastMovement = 1;</span>
+
+<span class="fc" id="L147">    }</span>
+
+    /**
+     * Changes Wizard's movement direction to up 
+     */
+    public void pressUp() {
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        if (lastMovement != 2) {</span>
+<span class="fc" id="L154">            this.stop();</span>
+        }
+<span class="fc" id="L156">        this.moveUp = true;</span>
+<span class="fc" id="L157">        this.sprite = this.sprites.get(&quot;up&quot;);</span>
+<span class="fc" id="L158">        this.lastMovement = 2;</span>
+
+<span class="fc" id="L160">    }</span>
+
+    /**
+     * Changes Wizard's movement direction to down 
+     */
+    public void pressDown() {
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (lastMovement != 3) {</span>
+<span class="fc" id="L167">            this.stop();</span>
+        }
+<span class="fc" id="L169">        this.moveDown = true;</span>
+<span class="fc" id="L170">        this.sprite = this.sprites.get(&quot;down&quot;);</span>
+<span class="fc" id="L171">        this.lastMovement = 3;</span>
+
+<span class="fc" id="L173">    }</span>
+
+    /**
+     * Stop Wizard from moving left and updates collision attribute
+     */
+    public void releaseLeft() {
+        
+<span class="fc" id="L180">        this.moveLeft = false;</span>
+<span class="fc" id="L181">        this.isCollided = false;</span>
+
+<span class="fc" id="L183">    }</span>
+
+    /**
+     * Stop Wizard from moving right and updates collision attribute
+     */
+    public void releaseRight() {
+        
+<span class="fc" id="L190">        this.moveRight = false;</span>
+<span class="fc" id="L191">        this.isCollided = false;</span>
+
+<span class="fc" id="L193">    }</span>
+
+    /**
+     * Stop Wizard from moving up and updates collision attribute
+     */
+    public void releaseUp() {
+        
+<span class="fc" id="L200">        this.moveUp = false;</span>
+<span class="fc" id="L201">        this.isCollided = false;</span>
+
+<span class="fc" id="L203">    }</span>
+
+    /**
+     * Stop Wizard from moving down and updates collision attribute
+     */
+    public void releaseDown() {
+        
+<span class="fc" id="L210">        this.moveDown = false;</span>
+<span class="fc" id="L211">        this.isCollided = false;</span>
+
+<span class="fc" id="L213">    }</span>
+
+    /**
+     * Checks if Wizard is moving
+     */
+    public void checkStationary() {
+<span class="fc bfc" id="L219" title="All 8 branches covered.">        if (moveLeft || moveRight || moveUp || moveDown) {</span>
+<span class="fc" id="L220">            isStationary = false;</span>
+        }
+        else {
+<span class="fc" id="L223">            isStationary = true;</span>
+        }
+<span class="fc" id="L225">    }</span>
+
+    /**
+     * Triggers fireball shooting sequence and starts cooldown counter.
+     * Adds newly created fireball into list of all fireballs.
+     * 
+     * @param fireballSprite    image of Fireball
+     * @param fireballs         list containing all Fireballs on map
+     */
+    public void pressSpace(PImage fireballSprite, ArrayList&lt;Fireball&gt; fireballs) {
+
+<span class="fc bfc" id="L236" title="All 4 branches covered.">        if (cooldownCounter == 0 &amp;&amp; isExist) {</span>
+<span class="fc" id="L237">            shootProjectile = true;</span>
+<span class="fc" id="L238">            cooldownCounter = (int) Math.ceil(cooldown * 60);</span>
+<span class="fc" id="L239">            Fireball fireball = new Fireball(this.x, this.y, fireballSprite, this.lastMovement);</span>
+<span class="fc" id="L240">            fireballs.add(fireball);</span>
+        }
+    
+<span class="fc" id="L243">    }</span>
+
+    /**
+     * Stops fireball shooting after releasing the spacebar
+     */
+    public void releaseSpace() {
+
+<span class="fc" id="L250">        shootProjectile = false;</span>
+
+<span class="fc" id="L252">    }</span>
+
+    /**
+     * Checks if Wizard hits Gremlin and kills Wizard if true
+     * 
+     * @param g Gremlin object to check for collision
+     * @return true if Wizard is hit
+     */
+    public boolean checkHitGremlin(Gremlin g){
+
+<span class="fc" id="L262">        boolean collision = false;</span>
+
+        //check when stationary
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        if (!isStationary) {</span>
+<span class="fc" id="L266">            collision = checkCollision(g.row, g.column);</span>
+        }
+        else{
+<span class="fc bfc" id="L269" title="All 6 branches covered.">            if (g.moveLeft &amp;&amp; ((this.column + 1 == g.column) &amp;&amp; (this.row == g.row))) {</span>
+<span class="fc" id="L270">                collision = true;</span>
+            }
+<span class="fc bfc" id="L272" title="All 6 branches covered.">            else if (g.moveRight &amp;&amp; ((this.column - 1 == g.column) &amp;&amp; (this.row == g.row))) {</span>
+<span class="fc" id="L273">                collision = true;</span>
+            }
+<span class="fc bfc" id="L275" title="All 6 branches covered.">            else if (g.moveUp &amp;&amp; ((this.row + 1 == g.row) &amp;&amp; (this.column == g.column))) {</span>
+<span class="fc" id="L276">                collision = true;</span>
+            }
+<span class="fc bfc" id="L278" title="All 6 branches covered.">            else if (g.moveDown &amp;&amp; ((this.row - 1 == g.row) &amp;&amp; (this.column == g.column))){</span>
+<span class="fc" id="L279">                collision = true;</span>
+            }
+            
+        }
+
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        if (collision) {</span>
+<span class="fc" id="L285">            this.isCollided = true;</span>
+<span class="fc" id="L286">            this.isExist = false;</span>
+<span class="fc" id="L287">            return true;</span>
+        }
+    
+<span class="fc" id="L290">        return false;</span>
+    }
+
+    /**
+     * Absorbs Powerup and starts Powerup spawn counter.
+     * Freezes Gremlins for a period of time.
+     * 
+     * @param p         Powerup to be absorbed
+     * @param gremlins  list containing all gremlins on map
+     */
+    public void absorbPowerup(Powerup p, ArrayList&lt;Gremlin&gt; gremlins) {
+        //set possibility of collecting another powerup while still powered up (reset counter)
+        
+<span class="fc" id="L303">        p.isExist = false;</span>
+<span class="fc" id="L304">        p.spawnCounter = 300;</span>
+<span class="fc" id="L305">        this.isPoweredUp = true;</span>
+<span class="fc" id="L306">        this.powerupCounter = 300;</span>
+
+        //freeze gremlins 
+<span class="fc bfc" id="L309" title="All 2 branches covered.">        for (Gremlin g : gremlins) {</span>
+<span class="fc" id="L310">            g.freeze();</span>
+<span class="fc" id="L311">        }</span>
+
+<span class="fc" id="L313">    }</span>
+
+    /**
+     * Ends effects of Powerup and unfreezes all gremlins
+     * 
+     * @param gremlins  list containing all gremlins on map
+     */
+    public void endPowerup(ArrayList&lt;Gremlin&gt; gremlins) {
+        //set possibility of collecting another powerup while still powered up (reset counter)
+<span class="fc" id="L322">        this.isPoweredUp = false;</span>
+
+        //unfreeze gremlin
+<span class="fc bfc" id="L325" title="All 2 branches covered.">        for (Gremlin g : gremlins) {</span>
+<span class="fc" id="L326">            g.unfreeze();</span>
+<span class="fc" id="L327">        }</span>
+
+<span class="fc" id="L329">    }</span>
+
+    /**
+     * Teleports Wizard to location of next portal
+     * 
+     * @param portals   list containing all portals on map
+     * @param index     index of current portal in list
+     */
+    public void teleport(ArrayList&lt;Door&gt;  portals, int index) {
+
+<span class="fc" id="L339">        index = (index+1) % portals.size();</span>
+<span class="fc" id="L340">        this.row = portals.get(index).row;</span>
+<span class="fc" id="L341">        this.column = portals.get(index).column;</span>
+<span class="fc" id="L342">        this.x = this.column * 20;</span>
+<span class="fc" id="L343">        this.y = this.row * 20;</span>
+<span class="fc" id="L344">    }</span>
+
+}
+
+
+    
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

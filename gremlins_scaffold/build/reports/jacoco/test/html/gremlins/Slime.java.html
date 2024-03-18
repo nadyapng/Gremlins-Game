@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Slime.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gremlins_scaffold</a> &gt; <a href="index.source.html" class="el_package">gremlins</a> &gt; <span class="el_source">Slime.java</span></div><h1>Slime.java</h1><pre class="source lang-java linenums">package gremlins;
+
+import java.util.ArrayList;
+
+import processing.core.PImage;
+
+public class Slime extends Projectile {
+    
+    /**
+     * Constructor method for Slime
+     * 
+     * @param x         x-coordinate on window
+     * @param y         y-coordinate on window
+     * @param sprite    image of Slime
+     * @param dir       direction of Slime movement, same as movement direction of Gremlin that shot it (0 for left, 1 for right, 2 for up, 3 for down)
+     */
+    public Slime(int x, int y, PImage sprite, int dir) {
+<span class="fc" id="L18">        super(x, y, sprite, dir);</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Checks collision of Slime with other objects and triggers movement
+     * 
+     * @param allTiles      list containing all tiles on map
+     * @param allGremlins   list containing all Gremlins on map
+     * @param wizard        Wizard object on map
+     * @param fireballs     list containing all fireballs on map
+     */
+    public void tick(ArrayList&lt;Tile&gt; allTiles, ArrayList&lt;Gremlin&gt; allGremlins, Wizard wizard, ArrayList&lt;Fireball&gt; fireballs) {
+
+<span class="fc" id="L31">        int tileHeight = 20;</span>
+<span class="fc" id="L32">        int tileWidth = 20;</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (isAbsorbed) {</span>
+<span class="fc" id="L35">            return;</span>
+        }
+
+        //check collision
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        for (Tile t : allTiles) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (!t.isExist) {</span>
+<span class="fc" id="L41">                continue;</span>
+            }
+<span class="fc" id="L43">            this.checkCollision(t.row, t.column);</span>
+<span class="fc" id="L44">        }</span>
+
+        //check hit wizard
+<span class="fc" id="L47">        boolean isHitWizard = this.checkCollision(wizard.row, wizard.column);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (isHitWizard) {</span>
+<span class="fc" id="L49">            wizard.kill();</span>
+        }
+
+        //check hit fireball
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (Fireball f : fireballs) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            if (f.isAbsorbed) {</span>
+<span class="fc" id="L55">                continue;</span>
+            }
+<span class="fc" id="L57">            this.checkCollision(f.row, f.column);</span>
+<span class="fc" id="L58">        }</span>
+
+<span class="fc" id="L60">        this.move();</span>
+
+<span class="fc" id="L62">        this.row = (int) Math.floor(this.y/tileHeight);</span>
+<span class="fc" id="L63">        this.column = (int) Math.floor(this.x/tileWidth);</span>
+
+<span class="fc" id="L65">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
